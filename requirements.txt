@@ -1,2 +1,4 @@
 gpiozero
 cryptocompare
+rpi.gpio
+pigpio
