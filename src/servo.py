@@ -1,5 +1,5 @@
 from gpiozero import Device, Servo, AngularServo
-# from gpiozero.pins.pigpio import PiGPIOFactory
+from gpiozero.pins.pigpio import PiGPIOFactory
 from time import sleep
 
 
@@ -9,7 +9,7 @@ class CustomServo:
         
         self.servo = AngularServo(
             'GPIO4',
-            # pin_factory=PiGPIOFactory(),
+            pin_factory=PiGPIOFactory(),
             min_angle=0,
             max_angle=180
         )
