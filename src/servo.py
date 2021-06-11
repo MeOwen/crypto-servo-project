@@ -1,35 +1,48 @@
+import atexit
 from gpiozero import Device, Servo, AngularServo
 from gpiozero.pins.pigpio import PiGPIOFactory
 from time import sleep
 
+"""
+Values for servo movement can be calibrated here.
+This depends on the physical setup.
+ex. servo.move(cm=-10) should move the weight attached to
+the servo down by 10 centimeters.
+"""
 
 class CustomServo:
 
     def __init__(self):
         
-        self.servo = AngularServo(
+        self.ANGLE_UP = 106
+        self.ANGLE_DOWN = 63
+                
+        self.GO_TIME_UP = 5
+        self.GO_TIME_DOWN = 5
+
+    def move(self, cm):
+        
+        print(f'moving {cm} cm...')
+        self.servo = self.create_servo()
+
+        if cm >= 0:
+            self.servo.angle = self.ANGLE_UP
+            sleep(self.GO_TIME_UP)
+        else:
+            self.servo.angle = self.ANGLE_DOWN
+            sleep(self.GO_TIME_DOWN)
+
+        del self.servo
+
+    def create_servo(self):
+        return AngularServo(
             'GPIO4',
             pin_factory=PiGPIOFactory(),
             min_angle=0,
             max_angle=180
         )
-        
-        self.SLOW_RIGHT = 60
-        self.SLOW_LEFT = 85
-        
-        self.FAST_RIGHT = 40
-        self.FAST_LEFT = 105
-        
-        self.STOP = 72
 
-        self.GO_TIME = 2
-        self.STOP_TIME = 1
-
-    def go_up(self, cm):
-        print(f'going up {cm} cm...')
-        self.servo.angle = self.SLOW_RIGHT
-        sleep(self.GO_TIME)
-        del self.servo
-
-    def go_down(self, cm):
-        print(f'going down {cm} cm...')
+    @atexit.register
+    def remove_servo():
+        if self.servo:
+            del self.servo

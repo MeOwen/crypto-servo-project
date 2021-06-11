@@ -32,3 +32,6 @@ https://gpiozero.readthedocs.io/en/stable/development.html
 - mkvirtualenv -p /usr/bin/python3 [projectname]
 - workon [projectname]
 - deactivate
+
+## todo
+stop servo on ctrl-c: https://www.devdungeon.com/content/python-catch-sigint-ctrl-c
