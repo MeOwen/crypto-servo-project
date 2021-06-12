@@ -15,22 +15,25 @@ class CustomServo:
     def __init__(self):
         
         self.ANGLE_UP = 106
-        self.ANGLE_DOWN = 63
-                
-        self.GO_TIME_UP = 5
-        self.GO_TIME_DOWN = 5
+        self.ANGLE_DOWN = 68                
+        self.cm_to_time_ratio = 0.38
 
     def move(self, cm):
         
         print(f'moving {cm} cm...')
         self.servo = self.create_servo()
 
+        go_time = cm * self.cm_to_time_ratio
+        
+        if go_time < 0:
+            go_time *= -1
+
         if cm >= 0:
             self.servo.angle = self.ANGLE_UP
-            sleep(self.GO_TIME_UP)
+            sleep(go_time)
         else:
             self.servo.angle = self.ANGLE_DOWN
-            sleep(self.GO_TIME_DOWN)
+            sleep(go_time)
 
         del self.servo
 
