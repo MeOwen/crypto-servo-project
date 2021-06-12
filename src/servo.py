@@ -19,6 +19,8 @@ class CustomServo:
         self.cm_to_time_ratio = 0.38
 
     def move(self, cm):
+
+        cm = float(cm)
         
         print(f'moving {cm} cm...')
         self.servo = self.create_servo()
